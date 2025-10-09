@@ -91,5 +91,5 @@ while True:
         break
 
 df = pd.DataFrame(all_data)
-df.to_csv("emsc.csv")
+df.to_csv("scraping/emsc.csv")
 driver.quit()
