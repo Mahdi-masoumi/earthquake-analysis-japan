@@ -43,7 +43,7 @@ venv.bak/
 *.ipynb_checkpoints/
 
 # Data files
-*.csv
+# *.csv
 *.sqlite
 *.db
 *.sql
