@@ -11,24 +11,9 @@ soup = BeautifulSoup(response.content, "html.parser")
 earthquakes = []
 for div in soup.select(".flex-row.row.eqinfo-all"):
     earthquakes.append(div)
-# for eq in earthquakes:
-#     mag = eq.find(class_="magbox").text.strip()
-#     place = eq.find("strong").text.strip()
-#     time = eq.find("div", class_="col-xs-12").text.strip()
-#     depth = eq.find_all(
-#         "span", class_="pull-right")[0].text.strip().replace("*", "")
-# data = []
-# for dataa in earthquakes:
-#     each_row = {
-#        'time': time,
-#        'depth': depth,
-#        'mag': mag,
-#        'place': place
-#     }
-#     data.append(each_row)
 
 data = [{
-    'time': eq.find("div", class_="col-xs-12").text.strip(),
+    'time': eq.findChildren()[6].text.split()[:2][0] + " " + eq.findChildren()[6].text.split()[:2][1],
     'depth': eq.find_all("span", class_="pull-right")[0].text.strip().replace("*", ""),
     'mag': eq.find(class_="magbox").text.strip(),
     'place': eq.find("strong").text.strip()
