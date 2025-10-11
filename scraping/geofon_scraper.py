@@ -35,5 +35,5 @@ data = [{
 } for eq in earthquakes]
 
 df = pd.DataFrame(data)
-df.to_csv("eathquakes.csv")
+df.to_csv("scraping/JAPAN_GEOFON.csv")
 # print(data)
