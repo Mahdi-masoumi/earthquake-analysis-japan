@@ -19,6 +19,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+my_emsc_crawler.py
 
 # Virtual Environment
 venv/

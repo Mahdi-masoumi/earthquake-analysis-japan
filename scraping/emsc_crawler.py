@@ -35,8 +35,8 @@ driver.find_element(By.CSS_SELECTOR, "#lonmax").send_keys("146")
 time.sleep(2)
 driver.find_element(By.CSS_SELECTOR, ".subm input[type='submit']").click()
 
-# extract the data after the table has rendered
 
+# extract the data after the table has rendered
 
 def extract_data(driver):
     time.sleep(2)
@@ -73,21 +73,21 @@ while True:
     try:
         next_btn = driver.find_element(By.CSS_SELECTOR, ".spes.spes1.pag")
         if next_btn.get_attribute("style") == "display: none;":
-            print("✅ Reached last page (Next hidden).")
             break
-        # Click the next button
+        # click the next button
         driver.execute_script("arguments[0].click();", next_btn)
 
-        # Wait for table to refresh (the first row should change)
-        first_row = driver.find_element(
+        old_first_row_text = driver.find_element(
             By.CSS_SELECTOR, ".eqs tbody tr .tbdat").text
-        wait.until(
-            lambda d: d.find_element(
-                By.CSS_SELECTOR, ".eqs tbody tr .tbdat").text != first_row
-        )
+
+        def has_page_updated(driver):
+            current_first_row_text = driver.find_element(
+                By.CSS_SELECTOR, ".eqs tbody tr .tbdat").text
+            return current_first_row_text != old_first_row_text
+
+        wait.until(has_page_updated)
 
     except NoSuchElementException:
-        print("✅ No next page found.")
         break
 
 df = pd.DataFrame(all_data)
