@@ -57,7 +57,7 @@ for f in csv_files:
     all_float_columns = list(set(numeric_columns + float_columns)) 
 
     for column in all_float_columns:
-        df[column] = pd.to_numeric(df[column], errors = "coerce")
+        df[column] = pd.to_numeric(df[column], errors = "coerce").astype(float)
         
     # clean data (logical filters)
     
@@ -164,4 +164,5 @@ for f in csv_files:
 
 
         
+
 
