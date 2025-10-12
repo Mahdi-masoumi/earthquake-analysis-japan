@@ -123,6 +123,7 @@ for f in csv_files:
         aggfunc = ["count", "mean", "max"],
         fill_value = 0
     )
+    print(pivot_region)
 
     pivot_region["count"]["mag"].plot(
     kind = "bar",
@@ -163,3 +164,4 @@ for f in csv_files:
 
 
         
+
