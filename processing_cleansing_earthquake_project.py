@@ -16,6 +16,10 @@ for f in csv_files:
     print("Number of rows and columns:", df.shape)
 
     # rename columns
+    if "coordinates" in df.columns:
+        coordinates = df["coordinates"].str.split(",", expand = True)
+        df["longitude"] = coordinates[0].str.replace("°E", "").str.strip().astype(float)
+        df["latitude"] = coordinates[1].str.replace("°N", "").str.strip().astype(float)
     
     if "date_and_time" in df.columns:
         df.rename(columns = {"date_and_time": "time"}, inplace = True)
@@ -164,5 +168,6 @@ for f in csv_files:
 
 
         
+
 
 
