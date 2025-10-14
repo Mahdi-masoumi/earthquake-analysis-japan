@@ -16,9 +16,10 @@ data = [{
     'time': eq.findChildren()[6].text.split()[:2][0] + " " + eq.findChildren()[6].text.split()[:2][1],
     'depth': eq.find_all("span", class_="pull-right")[0].text.strip().replace("*", ""),
     'mag': eq.find(class_="magbox").text.strip(),
-    'place': eq.find("strong").text.strip()
+    'place': eq.find("strong").text.strip(),
+    'coordinates': eq.find("strong").parent["title"]
 } for eq in earthquakes]
 
 df = pd.DataFrame(data)
 df.to_csv("scraping/JAPAN_GEOFON.csv")
-# print(data)
+print(data)
