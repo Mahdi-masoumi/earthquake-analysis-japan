@@ -25,3 +25,4 @@ time,latitude,longitude,mag,region,depth,tokyo_distance,place
 2025-10-16 15:00:18.200,35.68,139.75,5.0,Tokyo,33.0,0.10006477901838816,central tokyo
 2025-10-18 23:59:59.999,26.2124,127.6809,4.7,Ryukyu Islands,15.0,15.258658224431148,"Okinawa, Ryukyu Islands"
 2025-10-19 04:40:04.400,35.1815,136.9066,4.8,Nagoya,35.2,2.7876817555094138,"  Nagoya, Japan  "
+
