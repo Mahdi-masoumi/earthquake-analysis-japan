@@ -265,8 +265,8 @@ for f in csv_files:
     cleaned_df["region"] = cleaned_df["region"].replace("Ryukyu Isl.", "Ryukyu Islands")
 
     # delete extra columns
-    main_cols = ["time", "latitude", "longitude", "mag", "region", "depth", "tokyo_distance", "place"]
-    cleaned_df = cleaned_df[main_cols]
+    # main_cols = ["time", "latitude", "longitude", "mag", "depth", "region", "place", "tokyo_distance"00]
+    # cleaned_df = cleaned_df[main_cols]
     # print(cleaned_df.head(7))
 
     #task9 
