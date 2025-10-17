@@ -261,13 +261,26 @@ for f in csv_files:
     percentiles_distance = np.percentile(cleaned_df["tokyo_distance"], [25, 50, 75])
     print(percentiles_distance)
 
-  
-
+    # region (ryukyu islands)
+    cleaned_df["region"] = cleaned_df["region"].replace("Ryukyu Isl.", "Ryukyu Islands")
 
     # delete extra columns
     main_cols = ["time", "latitude", "longitude", "mag", "region", "depth", "tokyo_distance", "place"]
     cleaned_df = cleaned_df[main_cols]
     # print(cleaned_df.head(7))
+
+    #task9 
+
+
+    if f == "JAPAN_USGS.csv":
+        cleaned_df.to_csv("JAPAN_USGS_cleaned.csv", index = False)
+    elif f == "JAPAN_EMSC.csv":
+        cleaned_df.to_csv("JAPAN_EMSC_cleaned.csv", index = False)  
+    elif f == "JAPAN_DATASET.csv":
+        cleaned_df.to_csv("JAPAN_DATASET_cleaned.csv", index = False)   
+    elif f == "JAPAN_GEOFON.csv":
+        cleaned_df.to_csv("JAPAN_GEOFON_cleaned.csv", index = False)  
+
 
     # append dfs
     dataframes.append(cleaned_df)
@@ -301,4 +314,4 @@ plt.xticks(rotation = 90, ha = "right")
 plt.tight_layout()
 plt.show()
 
-all_dfs.to_csv("earthquake_cleaned.csv", index = False)
+# all_dfs.to_csv("earthquake_cleaned.csv", index = False)
