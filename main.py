@@ -1,3 +1,4 @@
+from emsc_crawler import run_emsc_scraper
 
 
 def main_panel():
@@ -9,3 +10,8 @@ def main_panel():
             raise ValueError(
                 "Invalid choice. Please enter a number between 1 and 4.")
             break
+        elif main_menu_choice == "1":
+            run_emsc_scraper()
+
+
+main_panel()

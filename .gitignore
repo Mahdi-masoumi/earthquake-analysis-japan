@@ -21,6 +21,11 @@ wheels/
 *.egg
 my_emsc_crawler.py
 
+# .csv files
+JAPAN_EMSC.csv
+JAPAN_GEOFON.csv
+JAPAN_USGS.csv
+
 # Virtual Environment
 venv/
 env/

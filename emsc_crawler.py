@@ -28,7 +28,7 @@ def run_emsc_scraper():
     # fill out search form and submit
     wait.until(EC.presence_of_element_located(
         (By.CSS_SELECTOR, "#datemin"))).send_keys('2025-09-09')
-    # driver.find_element(By.CSS_SELECTOR, "#datemax").send_keys('2025-10-09')
+    driver.find_element(By.CSS_SELECTOR, "#datemax").send_keys('2025-10-09')
     driver.find_element(By.CSS_SELECTOR, "#magmin").send_keys("1")
     driver.find_element(By.CSS_SELECTOR, "#latmin").send_keys("24")
     driver.find_element(By.CSS_SELECTOR, "#latmax").send_keys("46")
@@ -91,5 +91,5 @@ def run_emsc_scraper():
             break
 
     df = pd.DataFrame(all_data)
-    df.to_csv("scraping/JAPAN_EMSC.csv")
+    df.to_csv("JAPAN_EMSC.csv")
     driver.quit()
