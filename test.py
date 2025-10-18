@@ -29,6 +29,8 @@ class TestEarthquakeData(unittest.TestCase):
 
     def test_magstats(self):
         mean_mag = self.df["mag"].mean()
-        std_mag = self.df["mag"].std()
+        e_mag = self.df["mag"].std()
         self.assertTrue(1 <= mean_mag <= 10)
-        self.assertTrue(std_mag < 3)
+        self.assertTrue(e_mag < 3)
+if __name__=="__main__":
+        unittest.main()
