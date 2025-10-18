@@ -304,9 +304,9 @@ def preprocessing():
         figsize = (6, 6)
     )
     plt.xticks(rotation = 90, ha = "right")
-
     plt.tight_layout()
     plt.show()
 
-preprocessing()
+# preprocessing()
+
 
