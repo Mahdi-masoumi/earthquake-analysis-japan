@@ -17,6 +17,16 @@ def preprocessing():
 
 
     # functions 
+    formats = [ "%m/%d/%Y  %I:%M:%S %p", "%Y-%m-%dT%H:%M:%S.%fZ", "%m/%d/%Y %H:%M" ] 
+    def convert_datetime(series):
+        df["time"] = df["time"].astype(str).str.strip()
+        for f in formats:
+            try:
+                return pd.to_datetime(series, format = f)
+            except:
+                continue
+        return pd.NaT
+    
 
     def missing_values(cleaned_df):
         cleaned_df = cleaned_df.dropna(subset = ["time", "latitude", "longitude"]) # drop NaN time, latitude and longitude
@@ -24,7 +34,7 @@ def preprocessing():
         for column in ["mag", "depth"]:
             if column in cleaned_df.columns:
                 mean_dm = cleaned_df[column].mean(skipna=True)
-                cleaned_df.loc[:, column] = cleaned_df[column].fillna(mean_dm)
+                cleaned_df.loc[:, column] = cleaned_df[column].fillna(mean_dm).round(1)
 
             cleaned_df = cleaned_df.fillna(0) # fill remaining (0)
         return cleaned_df
@@ -137,16 +147,6 @@ def preprocessing():
 
 
         #task3 convert datetime  
-
-        formats = [ "%m/%d/%Y  %I:%M:%S %p", "%Y-%m-%dT%H:%M:%S.%fZ", "%m/%d/%Y %H:%M" ] 
-        def convert_datetime(series):
-            df["time"] = df["time"].astype(str).str.strip()
-            for f in formats:
-                try:
-                    return pd.to_datetime(series, format = f)
-                except:
-                    continue
-            return pd.NaT
         
         if f == "JAPAN_DATASET.csv":
             cleaned_df["time"] = cleaned_df["time"].apply(convert_datetime)
@@ -186,10 +186,8 @@ def preprocessing():
 
     #task4 NaN values
 
-
         cleaned_df = missing_values(cleaned_df)
-        # print(cleaned_df)
-        # print(cleaned_df[["time", "latitude", "longitude"]].isna().sum())
+        
     
         
     #task5 month column
@@ -198,7 +196,6 @@ def preprocessing():
         cleaned_df["month"] = cleaned_df["time"].dt.month
 
     #task6 category column
-    
 
         cleaned_df["category"] = cleaned_df["mag"].apply(categorize)
 
@@ -241,7 +238,7 @@ def preprocessing():
         x = cleaned_df["longitude"].values
         y = cleaned_df["latitude"].values
 
-        cleaned_df["tokyo_distance"] = np.sqrt((x - tokyo_long)**2 + (y - tokyo_lat)**2)
+        cleaned_df["tokyo_distance"] = np.sqrt((x - tokyo_long)**2 + (y - tokyo_lat)**2).round(2)
 
         mags = cleaned_df["mag"].values
         mean_mag = np.mean(mags)
@@ -263,7 +260,7 @@ def preprocessing():
 
 
 
-        #task8
+        #task9 
 
 
         if f == "JAPAN_USGS.csv":
@@ -304,9 +301,9 @@ def preprocessing():
         figsize = (6, 6)
     )
     plt.xticks(rotation = 90, ha = "right")
+
     plt.tight_layout()
     plt.show()
 
 # preprocessing()
-
 
