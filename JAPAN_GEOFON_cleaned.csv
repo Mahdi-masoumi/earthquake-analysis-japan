@@ -1,0 +1,23 @@
+Unnamed: 0,time,depth,mag,place,longitude,latitude,month,category,region,tokyo_distance
+0,2025-10-07 21:38:38.300,10.0,5.3,"Ryukyu Islands, Japan",129.1,29.34,10,Moderate,Ryukyu Islands,12.306602494596152
+1,2025-10-07 01:17:17.800,10.0,4.8,"Off East Coast of Honshu, Japan",144.19,37.77,10,Moderate,Honshu,4.999476068549577
+2,2025-10-07 00:30:25.000,53.0,5.1,"Near East Coast of Honshu, Japan",141.27,37.58,10,Moderate,Honshu,2.4996185629011487
+3,2025-10-06 20:02:44.100,461.0,4.5,"Bonin Islands, Japan Region",140.39,27.19,10,Moderate,Bonin Islands,8.51860228910823
+4,2025-10-06 18:25:05.400,10.0,4.7,"Off East Coast of Honshu, Japan",144.21,37.69,10,Moderate,Honshu,4.984795377946822
+5,2025-10-06 14:58:00.700,10.0,5.0,"Off East Coast of Honshu, Japan",144.16,37.7,10,Moderate,Honshu,4.943182877458605
+6,2025-10-06 14:20:25.700,10.0,4.9,"Off East Coast of Honshu, Japan",144.19,37.7,10,Moderate,Honshu,4.970569078083508
+7,2025-10-04 14:15:19.300,41.0,4.8,"Near East Coast of Honshu, Japan",142.16,39.71,10,Moderate,Honshu,4.750792456001414
+8,2025-10-03 03:48:03.300,103.0,4.7,"Near East Coast of Honshu, Japan",140.04,35.51,10,Moderate,Honshu,0.42401528274342937
+9,2025-10-01 17:40:51.700,10.0,4.6,"Off East Coast of Honshu, Japan",144.12,37.81,10,Moderate,Honshu,4.9530948870378
+10,2025-10-01 14:50:06.400,60.0,4.8,"Near East Coast of Honshu, Japan",141.98,38.76,10,Moderate,Honshu,3.864904780198331
+11,2025-09-28 21:23:51.700,58.0,4.8,"Southwestern Ryukyu Islands, Japan",123.31,24.34,9,Moderate,Ryukyu Islands,19.887422280426392
+12,2025-09-28 01:36:38.400,10.0,4.7,"Off East Coast of Honshu, Japan",144.17,37.7,9,Moderate,Honshu,4.95230824565675
+13,2025-09-27 13:37:19.000,10.0,4.8,"Off East Coast of Honshu, Japan",144.14,37.79,9,Moderate,Honshu,4.962600624672493
+14,2025-09-24 18:03:16.800,54.0,4.2,"Near East Coast of Honshu, Japan",142.14,38.92,9,Moderate,Honshu,4.089136945615775
+15,2025-09-23 17:08:13.900,133.0,4.8,"Ryukyu Islands, Japan",128.73,28.89,9,Moderate,Ryukyu Islands,12.856967953604006
+16,2025-09-20 04:46:35.800,10.0,4.9,"Ryukyu Islands, Japan",126.12,24.11,9,Moderate,Ryukyu Islands,17.800070476264974
+17,2025-09-17 13:00:34.700,52.0,4.6,"Ryukyu Islands, Japan",129.93,29.42,9,Moderate,Ryukyu Islands,11.559452450700249
+18,2025-09-17 12:55:07.300,33.0,5.0,"Ryukyu Islands, Japan",129.71,29.6,9,Moderate,Ryukyu Islands,11.65016038344537
+19,2025-09-15 04:34:46.400,50.0,4.8,"Near East Coast of Honshu, Japan",142.11,38.41,9,Moderate,Honshu,3.6775221222992003
+20,2025-09-13 23:48:26.800,285.0,4.3,Eastern Sea of Japan,137.46,42.11,9,Moderate,Sea Of Japan,6.796124554479558
+21,2025-09-13 00:17:55.800,10.0,4.9,"Southeast of Honshu, Japan",141.65,32.84,9,Moderate,Honshu,3.470614493140946
