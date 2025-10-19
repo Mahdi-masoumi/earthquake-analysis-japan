@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Float, Date, text
 import pandas as pd
-#nima part
+# nima part
 files = [
     ("/Users/Vengeance/Documents/GitHub/earthquake-analysis-japan/JAPAN_DATASET_cleaned.csv", "Dataset"),
     ("/Users/Vengeance/Documents/GitHub/earthquake-analysis-japan/JAPAN_EMSC_cleaned.csv", "EMSC"),
@@ -15,7 +15,8 @@ for file_path, source_name in files:
     if 'place' in df.columns and 'region' in df.columns:
         df = df.drop(columns=['place'])
     if 'latitude' in df.columns and 'longitude' in df.columns:
-        df['coordination'] = df.apply(lambda x: f"[{x.latitude}, {x.longitude}]", axis=1)
+        df['coordination'] = df.apply(
+            lambda x: f"[{x.latitude}, {x.longitude}]", axis=1)
     rename_map = {}
     if 'mag' in df.columns:
         rename_map['mag'] = 'magnitude'
@@ -23,7 +24,8 @@ for file_path, source_name in files:
         rename_map['place'] = 'region'
     df = df.rename(columns=rename_map)
     df['source'] = source_name
-    columns_needed = ['time', 'coordination', 'depth', 'magnitude', 'region', 'source']
+    columns_needed = ['time', 'coordination',
+                      'depth', 'magnitude', 'region', 'source']
     df = df[[c for c in columns_needed if c in df.columns]]
     if 'time' in df.columns:
         df['time'] = pd.to_datetime(df['time'], errors='coerce').dt.date
@@ -37,7 +39,8 @@ df_all = pd.concat(dfs, ignore_index=True)
 df_all = df_all.dropna(subset=['time', 'magnitude', 'region'])
 df_all = df_all.drop_duplicates()
 
-engine = create_engine("mysql+pymysql://root:nimaaslrousta717@localhost:3306/earthquakes_db")
+engine = create_engine(
+    "mysql+pymysql://root:nimaaslrousta717@localhost:3306/earthquakes_db")
 connection = engine.connect()
 metadata = MetaData()
 
@@ -66,7 +69,7 @@ df_all.to_sql(
 
 count = connection.execute(text("SELECT COUNT(*) FROM Earthquakes;")).scalar()
 print(f"Number of rows inserted: {count}")
-#sepehr queries
+# sepehr queries
 queries = {
     "total_earthquakes": """
         SELECT region, EXTRACT(MONTH FROM time) AS month, COUNT(*) AS total_earthquakes

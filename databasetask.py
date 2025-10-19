@@ -7,12 +7,18 @@ import os
 def run_database_final():
     load_dotenv()
     password = os.getenv("DB_PASSWORD")
+    engine = create_engine(
+        f"mysql+pymysql://root:{password}@localhost:3306/earthquakes_db")
+    connection = engine.connect()
+    metadata = MetaData()
 
     # nima part
-    df_dataset = pd.read_csv("JAPAN_DATASET_cleaned.csv")
-    df_emsc = pd.read_csv("JAPAN_EMSC_cleaned.csv")
-    df_geofon = pd.read_csv("JAPAN_GEOFON_cleaned.csv")
-    df_usgs = pd.read_csv("JAPAN_USGS_cleaned.csv")
+    files = [
+        ("JAPAN_DATASET_cleaned.csv", "Dataset"),
+        ("JAPAN_EMSC_cleaned.csv", "EMSC"),
+        ("JAPAN_GEOFON_cleaned.csv", "GEOFON"),
+        ("JAPAN_USGS_cleaned.csv", "USGS")
+    ]
 
     def clean_df(df, source_name):
         if 'place' in df.columns and 'region' in df.columns:
@@ -27,8 +33,6 @@ def run_database_final():
             rename_map['place'] = 'region'
         df = df.rename(columns=rename_map)
         df['source'] = source_name
-        # columns_needed = ['time', 'coordination', 'depth', 'magnitude', 'region', 'source']
-        # df = df[[c for c in columns_needed if c in df.columns]]
         if 'time' in df.columns:
             df['time'] = pd.to_datetime(df['time'], errors='coerce').dt.date
         if 'depth' in df.columns:
@@ -37,24 +41,15 @@ def run_database_final():
             df['magnitude'] = pd.to_numeric(df['magnitude'], errors='coerce')
         return df
 
-    df_dataset = clean_df(df_dataset, "Dataset")
-    df_emsc = clean_df(df_emsc, "EMSC")
-    df_geofon = clean_df(df_geofon, "GEOFON")
-    df_usgs = clean_df(df_usgs, "USGS")
+    for file_path, source_name in files:
+        df = pd.read_csv(file_path)
+        df = clean_df(df, source_name)
+        table_name = f"Earthquakes_{source_name}"
+        connection.execute(text(f"DROP TABLE IF EXISTS {table_name};"))
+        df.to_sql(name=table_name, con=engine,
+                  if_exists='replace', index=False, chunksize=1000)
 
-    df_final = pd.concat(
-        [df_dataset, df_emsc, df_geofon, df_usgs], ignore_index=True)
-    columns_needed = ['time', 'coordination',
-                      'depth', 'magnitude', 'region', 'source']
-    df_final = df_final[[c for c in columns_needed if c in df_final.columns]]
-
-    df_final = df_final.dropna(subset=['time', 'magnitude', 'region'])
-    df_final = df_final.drop_duplicates()
-
-    engine = create_engine(
-        f"mysql+pymysql://root:{password}@localhost:3306/earthquakes_db")
-    connection = engine.connect()
-    metadata = MetaData()
+    connection.execute(text("DROP TABLE IF EXISTS Earthquakes;"))
 
     earthquakes = Table(
         'Earthquakes',
@@ -68,20 +63,27 @@ def run_database_final():
         Column('source', String(50))
     )
 
-    connection.execute(text("DROP TABLE IF EXISTS Earthquakes;"))
     metadata.create_all(engine)
 
-    df_final.to_sql(
-        name='Earthquakes',
-        con=engine,
-        if_exists='append',
-        index=False,
-        chunksize=1000
-    )
-
+    insert_query = text("""
+        INSERT INTO Earthquakes (time, coordination, depth, magnitude, region, source)
+        SELECT time, coordination, depth, magnitude, region, source
+        FROM (
+            SELECT time, coordination, depth, magnitude, region, source FROM Earthquakes_Dataset
+            UNION ALL
+            SELECT time, coordination, depth, magnitude, region, source FROM Earthquakes_EMSC
+            UNION ALL
+            SELECT time, coordination, depth, magnitude, region, source FROM Earthquakes_GEOFON
+            UNION ALL
+            SELECT time, coordination, depth, magnitude, region, source FROM Earthquakes_USGS
+        ) AS combined
+        WHERE time IS NOT NULL AND magnitude IS NOT NULL AND region IS NOT NULL;
+    """)
+    connection.execute(insert_query)
     count = connection.execute(
         text("SELECT COUNT(*) FROM Earthquakes;")).scalar()
     print(f"Number of rows inserted: {count}")
+
     # sepehr queries
     queries = {
         "total_earthquakes": """
@@ -128,11 +130,15 @@ def run_database_final():
         result = connection.execute(text(query))
         if query.strip().lower().startswith("select"):
             rows = result.fetchall()
-            for row in rows[:10]:  # فقط 10 ردیف اول برای خوانایی
+            for row in rows[:10]:
                 print(row)
         else:
             print("Query executed successfully (no result to display).")
 
     output_path = "Earthquakes_export.csv"
-    df_export = pd.read_sql("SELECT * FROM Earthquakes", con=engine)
+    df_export = pd.read_sql(
+        "SELECT * FROM Earthquakes", con=engine)
     df_export.to_csv(output_path, index=False, encoding='utf-8-sig')
+
+
+run_database_final()
