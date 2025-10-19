@@ -9,14 +9,15 @@ import pandas as pd
 import datetime
 import time
 
-options = Options()
-driver = webdriver.Firefox(options=options)
-driver.get("https://www.emsc.eu/Earthquake_information/")
-extracted_data = None
-wait = WebDriverWait(driver, 10)
-
 
 def run_emsc_scraper():
+    options = Options()
+    options.add_argument("-headless")
+    driver = webdriver.Firefox(options=options)
+    driver.get("https://www.emsc.eu/Earthquake_information/")
+    extracted_data = None
+    wait = WebDriverWait(driver, 10)
+
     # accept cookies if there is a prompt
     try:
         cookie_btn = wait.until(EC.presence_of_element_located(
