@@ -21,24 +21,41 @@ def run_database_final():
     ]
 
     def clean_df(df, source_name):
-        if 'place' in df.columns and 'region' in df.columns:
-            df = df.drop(columns=['place'])
+        if 'Unnamed: 0' in df.columns:
+            df = df.drop(columns=['Unnamed: 0'])
+
         if 'latitude' in df.columns and 'longitude' in df.columns:
             df['coordination'] = df.apply(
                 lambda x: f"[{x.latitude}, {x.longitude}]", axis=1)
+        else:
+            df['coordination'] = None
+
         rename_map = {}
         if 'mag' in df.columns:
             rename_map['mag'] = 'magnitude'
+        elif 'Magnitude' in df.columns:
+            rename_map['Magnitude'] = 'magnitude'
+
         if 'place' in df.columns and 'region' not in df.columns:
             rename_map['place'] = 'region'
+        elif 'region' not in df.columns:
+            df['region'] = None
+
         df = df.rename(columns=rename_map)
-        df['source'] = source_name
+
         if 'time' in df.columns:
             df['time'] = pd.to_datetime(df['time'], errors='coerce').dt.date
-        if 'depth' in df.columns:
-            df['depth'] = pd.to_numeric(df['depth'], errors='coerce')
-        if 'magnitude' in df.columns:
-            df['magnitude'] = pd.to_numeric(df['magnitude'], errors='coerce')
+        else:
+            df['time'] = None
+
+        df['depth'] = pd.to_numeric(df.get('depth'), errors='coerce')
+        df['magnitude'] = pd.to_numeric(df.get('magnitude'), errors='coerce')
+        df['source'] = source_name
+
+        keep_cols = ['time', 'coordination',
+                     'depth', 'magnitude', 'region', 'source']
+        df = df[keep_cols]
+
         return df
 
     for file_path, source_name in files:
@@ -135,10 +152,10 @@ def run_database_final():
         else:
             print("Query executed successfully (no result to display).")
 
-    # output_path = "Earthquakes_export.csv"
-    # df_export = pd.read_sql(
-    #     "SELECT * FROM Earthquakes", con=engine)
-    # df_export.to_csv(output_path, index=False, encoding='utf-8-sig')
+    output_path = "Earthquakes_export.csv"
+    df_export = pd.read_sql(
+        "SELECT * FROM Earthquakes", con=engine)
+    df_export.to_csv(output_path, index=False, encoding='utf-8-sig')
 
 
 if __name__ == "__main__":
