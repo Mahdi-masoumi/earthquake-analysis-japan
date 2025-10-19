@@ -141,4 +141,5 @@ def run_database_final():
     df_export.to_csv(output_path, index=False, encoding='utf-8-sig')
 
 
-run_database_final()
+if __name__ == "__main__":
+    run_database_final()
