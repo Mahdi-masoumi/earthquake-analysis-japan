@@ -2,7 +2,7 @@ from scraping import scrape
 from final_Preprocessing import preprocessing
 from db_create_read import run_database_final
 from data_analysis import plot_histogram, plot_line, plot_scatter, plot_boxplot, plot_heatmap
-from test import TestEarthquakeData
+import test
 import unittest
 import os
 
