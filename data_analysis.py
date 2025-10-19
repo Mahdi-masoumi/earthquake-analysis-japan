@@ -1,6 +1,8 @@
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
+import ast 
 
 d = "charts_output"
 if not os.path.exists(d):
@@ -23,25 +25,19 @@ except:
         df["time"] = df["time"].dt.tz_localize(None)
     except:
         pass
-
 try:
     regs = df["region"].dropna().unique()
 except:
     regs = []
-for r in regs:
-    try:
-        z = df[df["region"] == r]["mag"]
-        plt.figure()
-        plt.hist(z, bins=10)
-        plt.title("distribution " + str(r))
-        plt.xlabel("Magnitude")
-        plt.ylabel("Count")
-        nm = os.path.join(d, "hist_" + str(r).replace(" ", "_").replace("/", "_") + ".png")
-        plt.tight_layout()
-        plt.savefig(nm)
-        plt.close()
-    except Exception as e:
-        print("region hist err:", r, e)
+    
+plt.figure(figsize=(10, 6))
+sns.histplot(data=df, x="magnitude", hue="region", bins=10, multiple="stack", palette="tab10")
+plt.title("Magnitude Distribution by Region")
+plt.xlabel("Magnitude")
+plt.ylabel("Count")
+# plt.tight_layout()
+plt.savefig(os.path.join(d, "combined_hist.png"))
+plt.close()
 
 try:
     df["date"] = df["time"].dt.date
@@ -49,7 +45,7 @@ except:
     df["date"] = pd.to_datetime(df["time"], errors="coerce").dt.date
 
 cnt = df.groupby("date").size()
-avg = df.groupby("date")["mag"].mean()
+avg = df.groupby("date")["magnitude"].mean()
 
 plt.figure()
 plt.plot(cnt.index, cnt.values, label="count")
@@ -65,7 +61,7 @@ plt.close()
 
 try:
     plt.figure()
-    plt.scatter(df["depth"], df["mag"])
+    plt.scatter(df["depth"], df["magnitude"])
     plt.title("magnitude vs depth")
     plt.xlabel("depth")
     plt.ylabel("mag")
@@ -77,7 +73,7 @@ except Exception as e:
 
 try:
     plt.figure()
-    plt.scatter(df["time"], df["mag"])
+    plt.scatter(df["time"], df["magnitude"])
     plt.title("magnitude vs time")
     plt.xlabel("time")
     plt.ylabel("mag")
@@ -91,9 +87,9 @@ except Exception as e:
 try:
     df["depth_cat"] = pd.cut(df["depth"], [-1, 70, 300, 10000],
                              labels=["shallow", "intermediate", "deep"])
-    a = df.loc[df["depth_cat"] == "shallow", "mag"].dropna()
-    b = df.loc[df["depth_cat"] == "intermediate", "mag"].dropna()
-    c = df.loc[df["depth_cat"] == "deep", "mag"].dropna()
+    a = df.loc[df["depth_cat"] == "shallow", "magnitude"].dropna()
+    b = df.loc[df["depth_cat"] == "intermediate", "magnitude"].dropna()
+    c = df.loc[df["depth_cat"] == "deep", "magnitude"].dropna()
     plt.figure()
     plt.boxplot([a, b, c])
     plt.xticks([1, 2, 3], ["shallow", "intermediate", "deep"])
@@ -107,6 +103,9 @@ except Exception as e:
     print("boxplot err:", e)
 
 try:
+    df["coordination"] = df["coordination"].apply(ast.literal_eval)
+    df["latitude"] = df["coordination"].apply(lambda x: x[0])
+    df["longitude"] = df["coordination"].apply(lambda x: x[1])
     ll = df[["longitude", "latitude"]].dropna()
     plt.figure()
     plt.hist2d(ll["longitude"], ll["latitude"], bins=50)
@@ -119,3 +118,6 @@ try:
     plt.close()
 except Exception as e:
     print("heatmap err:", e)
+
+
+#  [Index(['longitude', 'latitude'], dtype='object')] are in the [columns]"
