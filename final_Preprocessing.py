@@ -299,5 +299,6 @@ def preprocessing():
     plt.tight_layout()
     plt.show()
 
-# preprocessing()
 
+if __name__ == "__main__":
+    preprocessing()

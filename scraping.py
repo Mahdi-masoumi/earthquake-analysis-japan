@@ -7,3 +7,7 @@ def scrape():
     get_data_from_api()
     run_emsc_scraper()
     run_geofon_scraper()
+
+
+if __name__ == "__main__":
+    scrape()
