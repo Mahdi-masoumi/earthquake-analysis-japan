@@ -1,5 +1,6 @@
 from scraping import scrape
 from Final_Preprocessing import preprocessing
+from databasefinal import run_database_final
 
 
 def main_panel():
@@ -14,6 +15,12 @@ def main_panel():
         elif main_menu_choice == "1":
             scrape()
             preprocessing()
+        elif main_menu_choice == "2":
+            run_database_final()
+        elif main_menu_choice == "3":
+            pass
+        elif main_menu_choice == "4":
+            pass
         elif main_menu_choice == "0":
             break
 
