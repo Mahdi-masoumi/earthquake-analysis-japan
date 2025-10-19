@@ -23,7 +23,6 @@ my_emsc_crawler.py
 
 # .csv files
 JAPAN_*.csv
-Earthquakes_export.csv
 
 # Virtual Environment
 venv/
