@@ -21,7 +21,15 @@ def run_database_final_debug():
         if 'place' in df.columns and 'region' in df.columns:
             df = df.drop(columns=['place'])
         if 'latitude' in df.columns and 'longitude' in df.columns:
+<<<<<<< HEAD
             df['coordination'] = df.apply(lambda x: f"[{x.latitude}, {x.longitude}]", axis=1)
+=======
+            df['coordination'] = df.apply(
+                lambda x: f"[{x.latitude}, {x.longitude}]", axis=1)
+        else:
+            df['coordination'] = None
+
+>>>>>>> 462185258217c62b7f315bd4c76cab7aa3036316
         rename_map = {}
         if 'mag' in df.columns:
             rename_map['mag'] = 'magnitude'
@@ -31,10 +39,24 @@ def run_database_final_debug():
         df['source'] = source_name
         if 'time' in df.columns:
             df['time'] = pd.to_datetime(df['time'], errors='coerce').dt.date
+<<<<<<< HEAD
         if 'depth' in df.columns:
             df['depth'] = pd.to_numeric(df['depth'], errors='coerce')
         if 'magnitude' in df.columns:
             df['magnitude'] = pd.to_numeric(df['magnitude'], errors='coerce')
+=======
+        else:
+            df['time'] = None
+
+        df['depth'] = pd.to_numeric(df.get('depth'), errors='coerce')
+        df['magnitude'] = pd.to_numeric(df.get('magnitude'), errors='coerce')
+        df['source'] = source_name
+
+        keep_cols = ['time', 'coordination',
+                     'depth', 'magnitude', 'region', 'source']
+        df = df[keep_cols]
+
+>>>>>>> 462185258217c62b7f315bd4c76cab7aa3036316
         return df
 
     for file_path, source_name in files:
