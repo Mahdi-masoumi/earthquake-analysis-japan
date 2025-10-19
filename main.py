@@ -11,7 +11,6 @@ def main_panel():
         if main_menu_choice not in [str(i) for i in range(0, 5)]:
             raise ValueError(
                 "Invalid choice. Please enter a number between 0 and 4.")
-            break
         elif main_menu_choice == "1":
             scrape()
             preprocessing()
