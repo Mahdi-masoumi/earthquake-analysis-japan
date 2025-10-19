@@ -131,5 +131,9 @@ def run_database_final():
     for row in result:
         print(row)
 
+    output_path = "Earthquakes_export.csv"
+    df_export = pd.read_sql("SELECT * FROM Earthquakes", con=engine)
+    df_export.to_csv(output_path, index=False, encoding='utf-8-sig')
+
 
 # run_database_final()
