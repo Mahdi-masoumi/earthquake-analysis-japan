@@ -25,7 +25,8 @@ def run_database_final():
             df = df.drop(columns=['Unnamed: 0'])
 
         if 'latitude' in df.columns and 'longitude' in df.columns:
-            df['coordination'] = df.apply(lambda x: f"[{x.latitude}, {x.longitude}]", axis=1)
+            df['coordination'] = df.apply(
+                lambda x: f"[{x.latitude}, {x.longitude}]", axis=1)
         else:
             df['coordination'] = None
 
@@ -51,10 +52,11 @@ def run_database_final():
         df['magnitude'] = pd.to_numeric(df.get('magnitude'), errors='coerce')
         df['source'] = source_name
 
-        keep_cols = ['time', 'coordination', 'depth', 'magnitude', 'region', 'source']
+        keep_cols = ['time', 'coordination',
+                     'depth', 'magnitude', 'region', 'source']
         df = df[keep_cols]
 
-    return df
+        return df
 
     for file_path, source_name in files:
         df = pd.read_csv(file_path)
