@@ -2,7 +2,22 @@ from scraping import scrape
 from final_Preprocessing import preprocessing
 from db_create_read import run_database_final
 from data_analysis import plot_histogram, plot_line, plot_scatter, plot_boxplot, plot_heatmap
-# import data_analysis
+from test import TestEarthquakeData
+import unittest
+import os
+
+
+def run_tests():
+    print("🔍 Running unit tests...\n")
+    loader = unittest.TestLoader()
+    tests = loader.discover(
+        start_dir=os.path.dirname(__file__), pattern="test.py")
+    runner = unittest.TextTestRunner(verbosity=2)
+    result = runner.run(tests)
+    if result.wasSuccessful():
+        print("\n✅ All tests passed!")
+    else:
+        print("\n❌ Some tests failed. Check details above.")
 
 
 def main_panel():
@@ -38,7 +53,7 @@ def main_panel():
             visualizations()
 
         elif main_menu_choice == "4":
-            pass
+            run_tests()
 
         elif main_menu_choice == "0":
             break

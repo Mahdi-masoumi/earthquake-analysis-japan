@@ -135,10 +135,10 @@ def run_database_final():
         else:
             print("Query executed successfully (no result to display).")
 
-    output_path = "Earthquakes_export.csv"
-    df_export = pd.read_sql(
-        "SELECT * FROM Earthquakes", con=engine)
-    df_export.to_csv(output_path, index=False, encoding='utf-8-sig')
+    # output_path = "Earthquakes_export.csv"
+    # df_export = pd.read_sql(
+    #     "SELECT * FROM Earthquakes", con=engine)
+    # df_export.to_csv(output_path, index=False, encoding='utf-8-sig')
 
 
 if __name__ == "__main__":
